@@ -10,7 +10,7 @@ import SwiftUI
 struct RootTabBarView: View {
     var body: some View {
         TabView {
-            Text("First Tab")
+            HomeScreenView(viewModel: HomeViewModel.makeViewModel())
                 .tabItem {
                     Image(systemName: "popcorn.circle")
                 }
