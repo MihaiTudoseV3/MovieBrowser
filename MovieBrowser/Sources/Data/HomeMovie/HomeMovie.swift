@@ -5,7 +5,7 @@
 //  Created by Mihai Tudose on 28.01.2025.
 //
 
-struct HomeMovie {
+struct HomeMovie: Equatable {
     var title: String
     var rating: String
     var image: String

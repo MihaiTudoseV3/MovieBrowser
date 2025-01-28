@@ -25,6 +25,7 @@ struct RootTabBarView: View {
                     Image(systemName: "bookmark")
                 }
         }
+        .accentColor(.purple)
     }
 }
 

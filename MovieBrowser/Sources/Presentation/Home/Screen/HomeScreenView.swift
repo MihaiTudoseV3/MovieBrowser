@@ -22,7 +22,6 @@ struct HomeScreenView: View {
         .background(Color(.systemGray6))
     }
     
-    @ViewBuilder
     private func buildNavigationBar(state: HomeViewModelState) -> some View {
         HStack {
             Button(action: {}) {
@@ -59,18 +58,24 @@ struct HomeScreenView: View {
         }
     }
     
-    @ViewBuilder
     private func buildNowShowingSection(state: HomeViewModelState) -> some View {
         VStack(alignment: .leading) {
-            Text(state.nowShowingMoviesTitle)
-                .font(.headline)
-                .foregroundColor(.black)
-                .padding(.leading)
+            HStack {
+                Text(state.nowShowingMoviesTitle)
+                    .font(.headline)
+                
+                Spacer()
+                
+                buildSectionButton(title: "See more") {
+                    print("open a list of movies?")
+                }
+            }
+            .padding(.horizontal)
             
             GeometryReader { geometry in
                 let itemWidth = geometry.size.width / 2.5
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
+                    HStack(alignment: .top) {
                         ForEach(state.nowShowingMovies, id: \.title) { movie in
                             buildNowShowingItem(movie)
                                 .frame(width: itemWidth)
@@ -82,38 +87,43 @@ struct HomeScreenView: View {
         }
     }
     
-    @ViewBuilder
     private func buildNowShowingItem(_ movie: HomeMovie) -> some View {
-        VStack {
+        VStack(alignment: .leading) {
             Image(movie.image)
                 .resizable()
                 .scaledToFit()
-                .frame(minWidth: 150)
                 .cornerRadius(10)
             
             Text(movie.title)
-                .font(.caption)
-                .foregroundColor(.primary)
-            
-            Text(movie.rating)
                 .font(.subheadline)
-                .foregroundColor(.gray)
+                .fontWeight(.semibold)
+            
+            RatingView(movie.rating)
+                .padding(.vertical, 1)
         }
-        .padding(.leading, 10)
+        .padding(.leading, 16)
     }
     
-    @ViewBuilder
     private func buildPopularSection(state: HomeViewModelState) -> some View {
         VStack(alignment: .leading) {
-            Text(state.popularMoviesTitle)
-                .font(.headline)
-                .padding(.leading)
+            HStack {
+                Text(state.popularMoviesTitle)
+                    .font(.headline)
+                
+                Spacer()
+                
+                buildSectionButton(title: "See more") {
+                    print("open a list of popular movies?")
+                }
+            }
+            .padding(.horizontal)
             
             List(state.popularMovies, id: \.title) { movie in
+                let isLast = movie == state.popularMovies.last
                 buildPopularSectionItem(movie)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
+                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: isLast ? 0: 8, trailing: 16))
             }
             .listStyle(.plain)
         }
@@ -124,24 +134,45 @@ struct HomeScreenView: View {
             Image(movie.image)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 80, height: 120)
+                .frame(maxWidth: 100)
                 .cornerRadius(10)
             
             VStack(alignment: .leading) {
                 Text(movie.title)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                Text(movie.rating)
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                let genre = movie.genre?.joined(separator: " ")
-                Text(genre ?? "")
-                    .font(.caption)
-                    .foregroundColor(.blue)
-                Text(movie.duration ?? "")
-                    .font(.caption)
-                    .foregroundColor(.gray)
+                RatingView(movie.rating)
+                    .padding(.vertical, 1)
+
+                HStack {
+                    ForEach(movie.genre ?? [], id: \.self) { genre in
+                        PillTextView(text: genre)
+                    }
+                }
+                
+                HStack(spacing: 4) {
+                    Image(systemName: "clock")
+                        .font(.caption)
+                    Text(movie.duration ?? "")
+                        .font(.caption)
+                }
+                .padding(.vertical, 2)
+                    
             }
+        }
+    }
+    
+    private func buildSectionButton(title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.caption2)
+                .foregroundColor(.gray)
+                .padding(.vertical, 6)
+                .padding(.horizontal, 8)
+                .overlay(
+                    Capsule()
+                        .stroke(.gray, lineWidth: 1)
+                )
         }
     }
 }
