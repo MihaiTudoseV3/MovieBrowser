@@ -14,7 +14,7 @@ struct HomeScreenView: View {
     
     var body: some View {
         VStack {
-            buildNavigationBar(state: viewModel.state)
+            buildHeader(state: viewModel.state)
                 .padding()
             buildNowShowingSection(state: viewModel.state)
             buildPopularSection(state: viewModel.state)
@@ -23,7 +23,7 @@ struct HomeScreenView: View {
         .background(Color(.systemGray6))
     }
     
-    private func buildNavigationBar(state: HomeViewModelState) -> some View {
+    private func buildHeader(state: HomeViewModelState) -> some View {
         HStack {
             Button(action: {}) {
                 Image(systemName: "line.horizontal.3.decrease")
@@ -59,19 +59,23 @@ struct HomeScreenView: View {
         }
     }
     
+    private func buildSectionHeader(title: String, action: @escaping () -> Void) -> some View {
+        HStack {
+            Text(title)
+                .font(.headline)
+            
+            Spacer()
+            
+            PillButtonView(title: "See more", action: action)
+        }
+        .padding(.horizontal)
+    }
+    
     private func buildNowShowingSection(state: HomeViewModelState) -> some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text(state.nowShowingMoviesTitle)
-                    .font(.headline)
-                
-                Spacer()
-                
-                buildSectionButton(title: "See more") {
-                    print("open a list of movies?")
-                }
+            buildSectionHeader(title: state.nowShowingMoviesTitle) {
+                router.navigateTo(.notInScope)
             }
-            .padding(.horizontal)
             
             GeometryReader { geometry in
                 let itemWidth = geometry.size.width / 2.5
@@ -110,17 +114,9 @@ struct HomeScreenView: View {
     
     private func buildPopularSection(state: HomeViewModelState) -> some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text(state.popularMoviesTitle)
-                    .font(.headline)
-                
-                Spacer()
-                
-                buildSectionButton(title: "See more") {
-                    print("open a list of popular movies?")
-                }
+            buildSectionHeader(title: state.popularMoviesTitle) {
+                router.navigateTo(.notInScope)
             }
-            .padding(.horizontal)
             
             List(state.popularMovies, id: \.title) { movie in
                 let isLast = movie == state.popularMovies.last
@@ -165,24 +161,12 @@ struct HomeScreenView: View {
             }
         }
     }
-    
-    private func buildSectionButton(title: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(.caption2)
-                .foregroundColor(.gray)
-                .padding(.vertical, 6)
-                .padding(.horizontal, 8)
-                .overlay(
-                    Capsule()
-                        .stroke(.gray, lineWidth: 1)
-                )
-        }
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         HomeScreenView(viewModel: HomeViewModel())
+            .withRouter()
     }
 }
+

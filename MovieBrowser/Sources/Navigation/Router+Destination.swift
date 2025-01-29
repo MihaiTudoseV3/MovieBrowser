@@ -8,4 +8,5 @@
 enum Destination: Hashable {
     case home
     case details(HomeMovie)
+    case notInScope
 }

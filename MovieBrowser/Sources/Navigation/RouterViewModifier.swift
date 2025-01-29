@@ -17,7 +17,9 @@ struct RouterViewModifier: ViewModifier {
             case .home:
                 HomeScreenView(viewModel: HomeViewModel())
             case .details(let movie):
-                Text("Details for \(movie.title)")
+                MovieDetailsScreenView(viewModel: MovieDetailsViewModel(movie: movie))
+            case .notInScope:
+                Text("This screen is not part of the scope of this project")
             }
         }
         .environment(router)
@@ -26,7 +28,8 @@ struct RouterViewModifier: ViewModifier {
         NavigationStack(path: $router.path) {
             content
                 .environment(router)
-                .navigationDestination(for: Destination.self) { destination in destinationView (for: destination)
+                .navigationDestination(for: Destination.self) { destination in
+                    destinationView (for: destination)
                 }
         }
     }
