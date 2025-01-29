@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct RootTabBarView: View {
+    
     var body: some View {
         TabView {
-            HomeScreenView(viewModel: HomeViewModel.makeViewModel())
+            HomeScreenView(viewModel: HomeViewModel())
+                .withRouter()
                 .tabItem {
                     Image(systemName: "popcorn.circle")
                 }

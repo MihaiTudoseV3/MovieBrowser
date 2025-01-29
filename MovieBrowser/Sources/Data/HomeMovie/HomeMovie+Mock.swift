@@ -20,4 +20,8 @@ extension HomeMovie {
             HomeMovie(title: "The King's Man", rating: "8.4/10 IMDb", image: "kings_man", genre: ["Action", "Fantasy"], duration: "1h 47m")
         ]
     }
+    
+    static func makeMovie() -> HomeMovie {
+        makeNowShowingMovies().first!
+    }
 }

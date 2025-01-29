@@ -10,11 +10,12 @@ import SwiftUI
 struct HomeScreenView: View {
     
     @StateObject var viewModel: HomeViewModel
+    @Environment(Router.self) var router
     
     var body: some View {
         VStack {
             buildNavigationBar(state: viewModel.state)
-            .padding()
+                .padding()
             buildNowShowingSection(state: viewModel.state)
             buildPopularSection(state: viewModel.state)
             Spacer()
@@ -79,6 +80,9 @@ struct HomeScreenView: View {
                         ForEach(state.nowShowingMovies, id: \.title) { movie in
                             buildNowShowingItem(movie)
                                 .frame(width: itemWidth)
+                                .onTapGesture {
+                                    router.navigateTo(.details(movie))
+                                }
                         }
                     }
                 }
@@ -143,7 +147,7 @@ struct HomeScreenView: View {
                     .fontWeight(.semibold)
                 RatingView(movie.rating)
                     .padding(.vertical, 1)
-
+                
                 HStack {
                     ForEach(movie.genre ?? [], id: \.self) { genre in
                         PillTextView(text: genre)
@@ -157,7 +161,7 @@ struct HomeScreenView: View {
                         .font(.caption)
                 }
                 .padding(.vertical, 2)
-                    
+                
             }
         }
     }
@@ -179,6 +183,6 @@ struct HomeScreenView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeScreenView(viewModel: HomeViewModel.makeViewModel())
+        HomeScreenView(viewModel: HomeViewModel())
     }
 }

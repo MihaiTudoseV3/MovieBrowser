@@ -5,13 +5,13 @@
 //  Created by Mihai Tudose on 28.01.2025.
 //
 
-import SwiftUI
+import Foundation
 
 class HomeViewModel: ObservableObject {
     
     @Published var state: HomeViewModelState
     
-    init(_ viewModelState: HomeViewModelState) {
-        state = viewModelState
+    init() {
+        state = HomeViewModelState.makeHomeViewModelState()
     }
 }
