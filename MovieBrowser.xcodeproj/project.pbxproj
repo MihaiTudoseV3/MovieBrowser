@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A1FFD6652D4B4DA60010F466 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = A1FFD6642D4B4DA60010F466 /* Apollo */; };
+		A1FFD6672D4B4DA60010F466 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = A1FFD6662D4B4DA60010F466 /* ApolloWebSocket */; };
+		A1FFD67D2D4B7D320010F466 /* IMDbAPI in Frameworks */ = {isa = PBXBuildFile; productRef = A1FFD67C2D4B7D320010F466 /* IMDbAPI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A1C402552D4940990040810A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1FFD67D2D4B7D320010F466 /* IMDbAPI in Frameworks */,
+				A1FFD6652D4B4DA60010F466 /* Apollo in Frameworks */,
+				A1FFD6672D4B4DA60010F466 /* ApolloWebSocket in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +87,7 @@
 				A1C402452D4940970040810A /* MovieBrowser */,
 				A1C402572D4940990040810A /* MovieBrowserTests */,
 				A1C402612D4940990040810A /* MovieBrowserUITests */,
+				A1FFD6712D4B536D0010F466 /* Frameworks */,
 				A1C402442D4940970040810A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +100,13 @@
 				A1C4025E2D4940990040810A /* MovieBrowserUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A1FFD6712D4B536D0010F466 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +129,9 @@
 			);
 			name = MovieBrowser;
 			packageProductDependencies = (
+				A1FFD6642D4B4DA60010F466 /* Apollo */,
+				A1FFD6662D4B4DA60010F466 /* ApolloWebSocket */,
+				A1FFD67C2D4B7D320010F466 /* IMDbAPI */,
 			);
 			productName = MovieBrowser;
 			productReference = A1C402432D4940970040810A /* MovieBrowser.app */;
@@ -195,6 +215,10 @@
 			);
 			mainGroup = A1C4023A2D4940970040810A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A1FFD6632D4B4DA60010F466 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				A1FFD6792D4B7D1B0010F466 /* XCLocalSwiftPackageReference "IMDbAPI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A1C402442D4940970040810A /* Products */;
 			projectDirPath = "";
@@ -585,6 +609,42 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		A1FFD6792D4B7D1B0010F466 /* XCLocalSwiftPackageReference "IMDbAPI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = IMDbAPI;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A1FFD6632D4B4DA60010F466 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A1FFD6642D4B4DA60010F466 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1FFD6632D4B4DA60010F466 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		A1FFD6662D4B4DA60010F466 /* ApolloWebSocket */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1FFD6632D4B4DA60010F466 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = ApolloWebSocket;
+		};
+		A1FFD67C2D4B7D320010F466 /* IMDbAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1FFD6792D4B7D1B0010F466 /* XCLocalSwiftPackageReference "IMDbAPI" */;
+			productName = IMDbAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1C4023B2D4940970040810A /* Project object */;
 }

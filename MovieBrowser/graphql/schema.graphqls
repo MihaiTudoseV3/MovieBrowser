@@ -1,0 +1,210 @@
+"""
+The @defer directive may be specified on a fragment spread to imply de-prioritization, that causes the fragment to be omitted in the initial response, and delivered as a subsequent response afterward. A query with @defer directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred delivered in a subsequent response. @include and @skip take precedence over @defer.
+"""
+directive @defer(if: Boolean = true, label: String) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"""
+A directive used by the Apollo iOS client to annotate operations or fragments that should be used exclusively for generating local cache mutations instead of as standard operations.
+"""
+directive @apollo_client_ios_localCacheMutation on QUERY | MUTATION | SUBSCRIPTION | FRAGMENT_DEFINITION
+
+"""
+A directive used by the Apollo iOS code generation engine to generate custom import statements in operation or fragment definition files. An import statement to import a module with the name provided in the `module` argument will be added to the generated definition file.
+"""
+directive @import(
+  """The name of the module to import."""
+  module: String!
+) repeatable on QUERY | MUTATION | SUBSCRIPTION | FRAGMENT_DEFINITION
+
+"""Attach extra information to a given type."""
+directive @typePolicy(
+  """
+  A selection set containing fields used to compute the cache key of an object. Referenced fields must have non-nullable scalar types. Order is important.
+  """
+  keyFields: String!
+) on OBJECT | INTERFACE
+
+"""
+Avatar associated with a IMDb name.
+Includes url linking to the image, the width and height of the image in pixels.
+"""
+type Avatar {
+  url: String!
+  width: Int!
+  height: Int!
+}
+
+"""
+The certificates is the ratings certificates given to titles within each country.
+For example a title may be given a 'PG-13' rating in the 'US' region (by the MPA)
+"""
+type Certificate {
+  country: Country!
+  rating: String!
+}
+
+type Country {
+  """ISO 3166-1 alpha-2 codes (two-letter)."""
+  code: String!
+
+  """
+  English short name officially used by the ISO 3166 Maintenance Agency (ISO 3166/MA)
+  """
+  name: String!
+}
+
+"""The credits for this title organized by category."""
+type Credit {
+  """A IMDB name that the person was credited."""
+  name: Name
+
+  """Category name, e.g. director, writer, actor, actress"""
+  category: String!
+
+  """A list of characters."""
+  characters: [String!]
+
+  """For series we include number of episodes that the person was credited."""
+  episodes_count: Int
+}
+
+"""The reviews score of title from Metacritic.com"""
+type CriticReview {
+  score: Int!
+  review_count: Int!
+}
+
+type Language {
+  """ISO 639-3 language codes (three-letter)."""
+  code: String!
+
+  """English name of Language."""
+  name: String!
+}
+
+"""Name object types identify name entities (people)."""
+type Name {
+  """The unique IMDb ID for the name. Each IMDb ID appears exactly once."""
+  id: ID!
+
+  """
+  The primary name by which this person is known, usually the one by which they are most often credited.
+  """
+  display_name: String!
+  alternate_names: [String!]
+
+  """The year in which this person was born."""
+  birth_year: Int
+
+  """The place where this person was born."""
+  birth_location: String
+
+  """The year in which this person died."""
+  death_year: Int
+
+  """The place where this person died."""
+  death_location: String
+
+  """The cause of death."""
+  dead_reason: String
+
+  """A list of avatars."""
+  avatars(first: Int! = 1): [Avatar!]
+
+  """
+  A list of the IMDb titles in which this person is most well known for being involved.
+  """
+  known_for(first: Int! = 3): [Title!]
+}
+
+"""
+Poster associated with a IMDb title.
+Includes url linking to the image, the width and height of the image in pixels.
+"""
+type Poster {
+  url: String!
+  width: Int!
+  height: Int!
+  language_code: String
+}
+
+type Query {
+  title(id: ID!): Title
+  titles(ids: [String!]!): [Title!]
+  name(id: ID!): Name
+  names(ids: [String]!): [Name!]
+}
+
+"""The IMDb Rating for the title."""
+type Rating {
+  """Between 1 and 10 and given to one decimal place."""
+  aggregate_rating: Float!
+
+  """The number of IMDb users who have voted on this title."""
+  votes_count: Int!
+}
+
+"""
+Title object types identify title entities (movies, series, episodes and video games).
+"""
+type Title {
+  """The unique IMDb ID for the title. Each IMDb ID appears exactly once."""
+  id: ID!
+
+  """The type of this title, e.g. 'movie' or 'tvSeries'."""
+  type: String!
+
+  """Whether or not this title contains adult content."""
+  is_adult: Boolean!
+
+  """The primary title text of the title."""
+  primary_title: String!
+
+  """
+  The original title text of the title, normally what the title is known as in its original country of release.
+  """
+  original_title: String
+
+  """The year of the earliest release of this title globally."""
+  start_year: Int
+
+  """
+  The year when the last episode/series finale of the show has aired.
+  When a show is still running the end year will be omitted.
+  """
+  end_year: Int
+
+  """The running time of this title in minutes."""
+  runtime_minutes: Int
+
+  """A plot description."""
+  plot: String
+
+  """The IMDb Rating."""
+  rating: Rating
+
+  """
+  A list of content rating certifications that have been given to a title.
+  """
+  certificates(first: Int! = 3): [Certificate!]
+
+  """Aggregated reviews score from Metacritic.com"""
+  critic_review: CriticReview
+
+  """A list of genres to which this title belongs."""
+  genres: [String!]
+
+  """A list of the languages spoken in this title."""
+  spoken_languages: [Language!]
+
+  """
+  A list of origin countries in which the production companies for the title are based.
+  """
+  origin_countries: [Country!]
+
+  """A list of posters."""
+  posters(first: Int! = 1): [Poster!]
+
+  """A list of credits for this title organized by category."""
+  credits(first: Int! = 10, categories: [String!]): [Credit!]
+}

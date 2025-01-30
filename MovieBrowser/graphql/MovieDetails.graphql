@@ -1,0 +1,31 @@
+query MovieDetails($id: ID!) {
+  title(id: $id) {
+    id
+    primary_title
+    runtime_minutes
+    plot
+    rating {
+      aggregate_rating
+    }
+    genres
+    posters {
+      url
+    }
+    certificates {
+      rating
+    }
+    spoken_languages {
+      name
+    }
+    
+    casts: credits(first: 4, categories: ["actor", "actress"]) {
+      name {
+        id
+        display_name
+        avatars {
+          url
+        }
+      }
+    }
+  }
+}
