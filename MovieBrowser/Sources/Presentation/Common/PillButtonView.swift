@@ -31,3 +31,9 @@ struct PillButtonView: View {
         }
     }
 }
+
+struct PillButtonView_Preview: PreviewProvider {
+    static var previews: some View {
+        PillButtonView(title: "Title", action: {})
+    }
+}

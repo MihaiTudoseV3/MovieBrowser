@@ -18,7 +18,7 @@ struct MovieDetails: Equatable {
     let language: String?
     let cast: [Cast]
         
-    struct Cast: Equatable {
+    struct Cast: Equatable, Hashable {
         let name: String?
         let imageUrl: String?
     }

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RatingView: View {
-    var rating: String
+    
+    private var rating: String
     
     init(_ rating: String) {
         self.rating = rating

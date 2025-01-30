@@ -20,8 +20,10 @@ class MovieDetailsViewModel: ObservableObject {
         self.fetchMovieUseCase = fetchMovieUseCase
     }
     
-    func fetchMovie() {
-        fetchMovie(movieId)
+    func fetchMovie(onAppear: Bool = false) {
+        if !onAppear || state.content == .notInitialized {
+            fetchMovie(movieId)
+        }
     }
     
     private func fetchMovie(_ movieId: String) {

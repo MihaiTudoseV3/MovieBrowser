@@ -9,8 +9,8 @@ import SwiftUI
 
 @MainActor
 struct PillTextView: View {
-    private let text: String
     
+    private let text: String
     private let textColor: Color
     private let backgroundColor: Color
     
