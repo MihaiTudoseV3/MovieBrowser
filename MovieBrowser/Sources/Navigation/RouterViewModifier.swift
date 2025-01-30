@@ -17,7 +17,7 @@ struct RouterViewModifier: ViewModifier {
             case .home:
                 HomeScreenView(viewModel: HomeViewModel())
             case .details(let movie):
-                MovieDetailsScreenView(viewModel: MovieDetailsViewModel(movie: movie))
+                MovieDetailsScreenView(viewModel: MovieDetailsViewModel(movieId: movie.id, fetchMovieUseCase: DefaultFetchMovieUseCase()))
             case .notInScope:
                 Text("This screen is not part of the scope of this project")
             }

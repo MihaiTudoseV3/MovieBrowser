@@ -23,6 +23,9 @@ struct MovieDetailsScreenView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear() {
+            viewModel.fetchMovie()
+        }
     }
     
     private func buildHeader() -> some View {
@@ -57,23 +60,43 @@ struct MovieDetailsScreenView: View {
                         .progressViewStyle(CircularProgressViewStyle())
                         .scaleEffect(2)
                 case .loaded(_):
-                    Text("Loaded...")
+                    buildLoadedBody()
                 case .error(let error):
-                    Text(error)
+                    buildErrorBody(error)
                 }
             }
             Spacer()
         }
     }
     
-    private func buildLoadingBody() -> some View {
-        EmptyView()
+    private func buildLoadedBody() -> some View {
+        Text("Loaded...")
+    }
+    
+    private func buildErrorBody(_ error: String) -> some View {
+        VStack{
+            Text(error)
+            Button {
+                viewModel.fetchMovie()
+            } label: {
+                Text("Retry")
+            }
+        }
+        .padding()
     }
 }
 
-struct MovieDetailsScreenView_Preview: PreviewProvider {
-    static var previews: some View {
-        MovieDetailsScreenView(viewModel: MovieDetailsViewModel(movie: HomeMovie.makeMovie()))
-            .withRouter()
-    }
+#Preview("MovieDetailsScreenView_Loading") {
+    MovieDetailsScreenView(viewModel: MovieDetailsViewModel(movieId: "", fetchMovieUseCase: FetchMovieUseCaseMock(result: .never)))
+        .withRouter()
+}
+
+#Preview("MovieDetailsScreenView_Success") {
+    MovieDetailsScreenView(viewModel: MovieDetailsViewModel(movieId: "", fetchMovieUseCase: FetchMovieUseCaseMock(result: .success(movie: MovieDetails.makeMovieDetails()))))
+        .withRouter()
+}
+
+#Preview("MovieDetailsScreenView_Error") {
+    MovieDetailsScreenView(viewModel: MovieDetailsViewModel(movieId: "", fetchMovieUseCase: FetchMovieUseCaseMock(result: .failure(error: .notFound))))
+        .withRouter()
 }

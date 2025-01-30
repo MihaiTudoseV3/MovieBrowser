@@ -6,6 +6,7 @@
 //
 
 struct HomeMovie: Equatable, Hashable {
+    var id: String
     var title: String
     var rating: String
     var image: String

@@ -7,11 +7,10 @@
 
 struct MovieDetailsViewModelState {
     var content: Content
-    let title: String
 }
 
 extension MovieDetailsViewModelState {
-    enum Content {
+    enum Content: Equatable {
         case notInitialized
         case loading
         case loaded(MovieDetails)

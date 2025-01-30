@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct MovieDetails {
+struct MovieDetails: Equatable {
     let id: String
     let title: String?
     let imdbRating: String?
@@ -18,7 +18,7 @@ struct MovieDetails {
     let language: String?
     let cast: [Cast]
         
-    struct Cast {
+    struct Cast: Equatable {
         let name: String?
         let imageUrl: String?
     }
