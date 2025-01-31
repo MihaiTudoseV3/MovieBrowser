@@ -26,6 +26,7 @@
 * The app is not pixel-perfect because on Figma I found two screenshots instead of an actual screen design. 
 * The project uses system images and colors as close as possible to the ones from screen since they are not available in Figma developer mode
 * Each element size is also an approximation, being unable to get the exact size due to the mentioned limitations
+* Movie trailer not available, I used the poster to replace it.
 
 ## Other trade-offs
 * Strings are used as-is through the app, they must be extracted in a localizable file or organized somehow
