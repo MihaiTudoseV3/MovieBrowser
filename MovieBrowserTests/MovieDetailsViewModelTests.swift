@@ -44,10 +44,13 @@ class MovieDetailsViewModelTests: XCTestCase {
         viewModel.fetchMovie()
         
         // Then
+        let expectation = XCTestExpectation()
         XCTAssertEqual(viewModel.state.content, .loading) // It should first be in loading state
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             XCTAssertEqual(self.viewModel.state.content, .loaded(expectedMovie))
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.2)
     }
     
     // Test Failure
@@ -59,9 +62,12 @@ class MovieDetailsViewModelTests: XCTestCase {
         viewModel.fetchMovie()
         
         // Then
+        let expectation = XCTestExpectation()
         XCTAssertEqual(viewModel.state.content, .loading) // It should first be in loading state
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             XCTAssertEqual(self.viewModel.state.content, .error(FetchMovieUseCaseMock.FetchError.notFound.localizedDescription))
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.2)
     }
 }

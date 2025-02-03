@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-struct FetchMovieUseCaseMock: FetchMovieUseCase {
+class FetchMovieUseCaseMock: FetchMovieUseCase {
     var result: NetworkResponseState
     
     init(result: NetworkResponseState = .never) {
